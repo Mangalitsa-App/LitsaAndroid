@@ -21,18 +21,15 @@ public class UserViewModel extends AndroidViewModel {
     public LiveData<User> getUser(String token) {
         return userRepository.getUser(token);
     }
-    public void addUser (String email, String password, String username){
-    userRepository.addUser(email, password, username);
+    public void addUser (User user){
+    userRepository.addUser(user);
     }
-    public UserResponse logUser(String email, String password) throws Exception {
-       return userRepository.logUser(email,password);
+    public UserResponse logUser(User user) throws Exception {
+       return userRepository.logUser(user);
 
     }
     public Boolean isLoginValid (UserResponse userResponse){
-        if(userResponse.getToken() != null){
-            return true;
-        }
-        return false;
+        return userResponse.getToken() != null;
     }
 }
 

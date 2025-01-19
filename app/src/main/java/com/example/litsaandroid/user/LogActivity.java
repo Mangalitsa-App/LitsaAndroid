@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.litsaandroid.R;
 import com.example.litsaandroid.model.User;
+import com.example.litsaandroid.model.UserResponse;
 import com.example.litsaandroid.ui.mainActivity.HomeFragment;
 
 public class LogActivity extends AppCompatActivity {
@@ -33,8 +34,8 @@ public class LogActivity extends AppCompatActivity {
         setContentView(R.layout.log_in);
 
 
-        EditText email = findViewById(R.id.email);
-        EditText password = findViewById(R.id.password);
+        EditText emailbox = findViewById(R.id.email);
+        EditText passwordbox = findViewById(R.id.password);
         viewModel= new ViewModelProvider(this).get(UserViewModel.class);
 
         //logic for log in button
@@ -43,21 +44,25 @@ public class LogActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 HomeFragment home = new HomeFragment();
-                user.setEmail(String.valueOf(email));
-                user.setPassword(String.valueOf(password));
+                String email = emailbox.getText().toString();
+                String password = passwordbox.getText().toString();
+                user.setEmail(email);
+                user.setPassword(password);
+                UserResponse response;
                 try {
-                  if(viewModel.isLoginValid(viewModel.logUser(user.getEmail(),user.getPassword()))){
-                    //if login is successful we move to the HomeFragment
-                      getSupportFragmentManager()
-                              .beginTransaction()
-                              .replace(R.id.fllogin, home)
-                              .commit();
-                  } else {
-                      Toast.makeText(getApplicationContext(),"Log in not successful, try again",Toast.LENGTH_SHORT).show();
-                  }
+                    response = viewModel.logUser(user);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
+                //if login is successful we move to the HomeFragment
+                if (viewModel.isLoginValid(response)){
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fllogin, home)
+                            .commit();
+            } else {
+                      Toast.makeText(getApplicationContext(),"Log in not successful, try again",Toast.LENGTH_SHORT).show();
+                  }
             }
         });
 

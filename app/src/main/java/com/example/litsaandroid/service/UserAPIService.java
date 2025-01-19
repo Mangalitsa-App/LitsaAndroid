@@ -17,10 +17,10 @@ public interface UserAPIService {
     Call<User> getUser(@Header("token") String token);
 
     @POST("auth/login")
-    Call<UserResponse> loginToken (@Body String email, @Body String password);
+    Call<UserResponse> loginToken (@Body User user);
 
     @POST("auth/signup")
-    Call<StatusLine> create (@Body String email, @Body String password, @Body String displayName);
+    Call<StatusLine> create (@Body User user);
 
     @PATCH("user")
     Call<User> editUser (@Header("token") String name);

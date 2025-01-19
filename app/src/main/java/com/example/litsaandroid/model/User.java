@@ -11,7 +11,7 @@ import com.example.litsaandroid.BR;
 
 public class User extends BaseObservable implements Parcelable {
 
-    private String name;
+    private String displayName;
     private String email;
     private String password;
 
@@ -19,7 +19,7 @@ public class User extends BaseObservable implements Parcelable {
     }
 
     public User(String name, String email, String password) {
-        this.name = name;
+        this.displayName = name;
         this.email = email;
         this.password = password;
     }
@@ -31,11 +31,11 @@ public class User extends BaseObservable implements Parcelable {
 
     @Bindable
     public String getName() {
-        return name;
+        return displayName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.displayName = name;
         notifyPropertyChanged(BR.name);
     }
 
@@ -67,12 +67,12 @@ public class User extends BaseObservable implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(email);
-        dest.writeString(name);
+        dest.writeString(displayName);
         dest.writeString(password);
     }
 
     protected User(Parcel in) {
-    name = in.readString();
+    displayName = in.readString();
     email= in.readString();
     password = in.readString();
     }

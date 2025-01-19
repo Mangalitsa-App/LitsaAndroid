@@ -52,8 +52,8 @@ public class UserRepository {
         return mutableLiveData;
     }
 
-    public void addUser(String email, String password, String username) {
-        Call call = userAPIService.create(email, password, username);
+    public void addUser(User user) {
+        Call call = userAPIService.create(user);
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -69,10 +69,10 @@ public class UserRepository {
         });
     }
 
-    public UserResponse logUser(String email, String password) throws Exception {
+    public UserResponse logUser(User user) throws Exception {
         TokenStorage tokenStorage = new TokenStorage(application.getApplicationContext());
         UserResponse userResponse= new UserResponse();
-        Call call = userAPIService.loginToken(email, password);
+        Call call = userAPIService.loginToken(user);
         call.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
