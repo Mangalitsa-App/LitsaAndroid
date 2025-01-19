@@ -73,7 +73,7 @@
             android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/passwordrepeat"
             android:layout_marginTop="30sp"
-            android:hint="@string/choose_a_username"
+            android:hint="Choose a username"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textAlignment="center"
