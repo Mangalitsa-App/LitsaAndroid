@@ -1,4 +1,4 @@
-package com.example.litsaandroid.user;
+package com.example.litsaandroid.repositories;
 
 import android.app.Application;
 import android.util.Log;
@@ -92,4 +92,5 @@ public class UserRepository {
 
         return userResponse;
     }
+    public
 }
