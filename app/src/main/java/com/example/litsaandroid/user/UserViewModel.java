@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.litsaandroid.model.TokenStorage;
 import com.example.litsaandroid.model.User;
 import com.example.litsaandroid.model.UserResponse;
+import com.example.litsaandroid.repositories.UserRepository;
 
 public class UserViewModel extends AndroidViewModel {
     private UserRepository userRepository;
