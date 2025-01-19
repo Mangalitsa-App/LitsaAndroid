@@ -37,5 +37,9 @@
     <string name="culture_entertainment">Culture/Entertainment</string>
     <string name="health_and_wellness">Health and Wellness</string>
     <string name="sports">Sports</string>
+    <string name="icon_of_a_user">icon of a user</string>
+    <string name="log_out">Log Out</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="change_password">Change Password</string>
 
 </resources>
