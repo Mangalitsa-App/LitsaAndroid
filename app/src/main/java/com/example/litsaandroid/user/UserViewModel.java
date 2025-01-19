@@ -29,7 +29,7 @@ public class UserViewModel extends AndroidViewModel {
 
     }
     public Boolean isLoginValid (UserResponse userResponse){
-        return userResponse.getToken() != null;
+        return userResponse.getToken().isEmpty();
     }
 }
 
