@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface UserAPIService {
     @GET("user")
@@ -22,6 +23,6 @@ public interface UserAPIService {
     @POST("auth/signup")
     Call<StatusLine> create (@Body User user);
 
-    @PATCH("user")
-    Call<User> editUser (@Header("token") String name);
+    @PATCH("user/{id}")
+    Call<User> editUser (@Path("id")long id,@Body User user);
 }

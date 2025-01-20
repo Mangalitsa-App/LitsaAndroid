@@ -42,5 +42,6 @@
     <string name="delete_account">Delete Account</string>
     <string name="change_password">Change Password</string>
     <string name="update">Update</string>
+    <string name="update_name">Update name</string>
 
 </resources>

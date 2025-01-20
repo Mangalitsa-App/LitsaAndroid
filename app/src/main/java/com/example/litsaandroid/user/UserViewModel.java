@@ -18,7 +18,7 @@ public class UserViewModel extends AndroidViewModel {
         this.userRepository = new UserRepository(application);
     }
 
-    public LiveData<User> getUser(String token) {
+    public User getUser(String token) {
         return userRepository.getUser(token);
     }
     public void addUser (User user){
@@ -30,6 +30,12 @@ public class UserViewModel extends AndroidViewModel {
     }
     public Boolean isLoginValid (UserResponse userResponse){
         return userResponse.getToken().isEmpty();
+
+    }
+
+    public User editUser(User user){
+        return userRepository.editUser(user);
+
     }
 }
 
