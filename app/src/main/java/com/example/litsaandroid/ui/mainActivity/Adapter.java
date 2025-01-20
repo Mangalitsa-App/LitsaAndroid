@@ -2,6 +2,7 @@ package com.example.litsaandroid.ui.mainActivity;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.example.litsaandroid.R;
 import com.example.litsaandroid.databinding.PlacesItemBinding;
 import com.example.litsaandroid.model.Favourites;
 import com.example.litsaandroid.model.Places;
+import com.example.litsaandroid.ui.favourites.FavouritesFragment;
 import com.example.litsaandroid.ui.favourites.FavouritesViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -24,8 +26,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PlacesItemViewHolder> 
     private List<Places> placesList;
     private Context context;
     private Favourites favourites;
-
     private FavouritesViewModel favouritesViewModel;
+
+    private FavouritesFragment favouritesFragment;
 
     private final RecyclerViewInterface recyclerViewInterface;
 
@@ -76,16 +79,20 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PlacesItemViewHolder> 
         @Override
         public void onClick(View v) {
 
-//            favourites.setId(place.getId());
+            Favourites newFavourite = new Favourites();
 
-//            favourites.setDisplayName(place.getDisplayName());
-//            favourites.setImg(place.getImg());
-//            favourites.setFormattedAddress(place.getFormattedAddress());
-//            favourites.setPriceLevel(place.getPriceLevel());
-//            favourites.setWebsiteUri(place.getWebsiteUri());
-//            favourites.setTypes(place.getTypes());
+            newFavourite.setDisplayName(place.getDisplayName());
+            newFavourite.setPhotoLink(place.getImg());
+            newFavourite.setFormattedAddress(place.getFormattedAddress());
+            newFavourite.setWebsite(place.getWebsiteUri());
+            newFavourite.setPriceLevel(place.getPriceLevel());
+            newFavourite.setTypes(place.getTypes().toString());
 
-//            favouritesViewModel.addFavourites(favourites);
+            favouritesViewModel.addFavourites(GET USER ID, newFavourite);
+
+            Bundle args = new Bundle();
+            args.putParcelable("favourites_body", newFavourite);
+            favouritesFragment.setArguments(args);
 
             if(favouritesButton.isSelected()){
                 favouritesButton.setImageResource(R.drawable.favourites_clicked);
@@ -95,8 +102,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PlacesItemViewHolder> 
                 favouritesButton.setImageResource(R.drawable.favourites_unclicked);
                 favouritesButton.setSelected(true);
             }
-
-
         }
     });
     }

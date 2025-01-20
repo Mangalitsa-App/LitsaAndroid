@@ -21,15 +21,15 @@ public class FavouritesViewModel extends AndroidViewModel {
         this.userFavouriteRepository = new UserFavouriteRepository(application);
     }
 
-    public MutableLiveData<List<Favourites>> getAllFavourites(){
-        return userFavouriteRepository.getFavourites();
+    public MutableLiveData<List<Favourites>> getAllFavourites(long userId){
+        return userFavouriteRepository.getFavourites(userId);
     }
 
-    public void addFavourites(Favourites favourites){
-        userFavouriteRepository.addFavourite(favourites);
+    public void addFavourites(long userId, Favourites favourites){
+        userFavouriteRepository.addFavourite(userId, favourites);
     }
 
-    public void deleteFavourites(String id){
-        userFavouriteRepository.deleteFavourite(id);
+    public void deleteFavourites(long userId, long placeId){
+        userFavouriteRepository.deleteFavourite(userId, placeId);
     }
 }

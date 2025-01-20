@@ -13,12 +13,12 @@ import retrofit2.http.Path;
 
 public interface UserFavouritePlaceApiService {
 
-    @GET("favourites")
-    Call<List<Favourites>> getAllFavourites();
+    @GET("favourites/{user_id}")
+    Call<List<Favourites>> getAllFavourites(@Path("user_id") long userId);
 
-    @POST("favourites")
-    Call<Favourites> addFavourite(@Body Favourites favourites);
+    @POST("favourites/{user_id}")
+    Call<Favourites> addFavourite(@Path("user_id")long userId, @Body Favourites favourites);
 
-    @DELETE("favourites/{id}")
-    Call<String> deleteFavourite(@Path("id") String id);
+    @DELETE("favourites/{user_id}/{place_id}")
+    Call<String> deleteFavourite(@Path("user_id") long userId, @Path("place_id") long placeId);
 }

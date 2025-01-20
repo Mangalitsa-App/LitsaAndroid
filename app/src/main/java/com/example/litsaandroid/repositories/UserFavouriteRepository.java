@@ -26,8 +26,8 @@ public class UserFavouriteRepository {
         userFavouritePlaceApiService = RetrofitInstance.getService().create(UserFavouritePlaceApiService.class);
     }
 
-    public MutableLiveData<List<Favourites>> getFavourites(){
-        Call<List<Favourites>> call = userFavouritePlaceApiService.getAllFavourites();
+    public MutableLiveData<List<Favourites>> getFavourites(long userId){
+        Call<List<Favourites>> call = userFavouritePlaceApiService.getAllFavourites(userId);
         call.enqueue(new Callback<List<Favourites>>() {
             @Override
             public void onResponse(Call<List<Favourites>> call, Response<List<Favourites>> response) {
@@ -43,8 +43,8 @@ public class UserFavouriteRepository {
         return mutableLiveData;
     }
 
-    public void addFavourite(Favourites favourites){
-        Call<Favourites> call = userFavouritePlaceApiService.addFavourite(favourites);
+    public void addFavourite(long userId, Favourites favourites){
+        Call<Favourites> call = userFavouritePlaceApiService.addFavourite(userId, favourites);
 
         call.enqueue(new Callback<Favourites>() {
             @Override
@@ -58,8 +58,8 @@ public class UserFavouriteRepository {
             }
         });
     }
-    public void deleteFavourite(String id){
-        Call<String> call = userFavouritePlaceApiService.deleteFavourite(id);
+    public void deleteFavourite(long userId, long placeId){
+        Call<String> call = userFavouritePlaceApiService.deleteFavourite(userId, placeId);
 
         call.enqueue(new Callback<String>() {
             @Override

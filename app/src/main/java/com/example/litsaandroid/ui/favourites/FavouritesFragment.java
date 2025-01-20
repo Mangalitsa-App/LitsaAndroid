@@ -18,6 +18,8 @@ import com.example.litsaandroid.R;
 import com.example.litsaandroid.databinding.FragmentFavouritesBinding;
 import com.example.litsaandroid.databinding.FragmentPlacesBinding;
 import com.example.litsaandroid.model.Favourites;
+import com.example.litsaandroid.model.SearchParameters;
+import com.example.litsaandroid.model.User;
 import com.example.litsaandroid.ui.mainActivity.Adapter;
 import com.example.litsaandroid.ui.mainActivity.RecyclerViewInterface;
 
@@ -33,8 +35,17 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
     private FragmentFavouritesBinding binding;
     private FavouritesViewModel favouritesViewModel;
     private FavouritesClickHandler clickHandler;
+    private Favourites passedFavourite;
+    private User user;
 
     public FavouritesFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        assert getArguments() != null;
+        passedFavourite = getArguments().getParcelable("favourites_body");
     }
 
     @Override
@@ -56,7 +67,7 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
     }
 
     private void getFavouritePlaces(){
-        favouritesViewModel.getAllFavourites().observe(getViewLifecycleOwner(), new Observer<List<Favourites>>() {
+        favouritesViewModel.getAllFavourites(user.GETID, passedFavourite).observe(getViewLifecycleOwner(), new Observer<List<Favourites>>() {
             @Override
             public void onChanged(List<Favourites> favourites) {
                 favouritesList = (ArrayList<Favourites>) favourites;
@@ -72,4 +83,6 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
     public void onItemClick(int position) {
 
     }
+
+
 }
