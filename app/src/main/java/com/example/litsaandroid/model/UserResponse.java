@@ -1,14 +1,14 @@
 package com.example.litsaandroid.model;
 
 public class UserResponse {
-    private String token;
+    private static String token;
 
     public String getToken() {
         return token;
     }
 
     public void setToken(String token) {
-        this.token = token;
+        UserResponse.token = token;
     }
 
     public UserResponse() {

@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.litsaandroid.model.TokenStorage;
 import com.example.litsaandroid.model.User;
+import com.example.litsaandroid.model.UserRequest;
 import com.example.litsaandroid.model.UserResponse;
 import com.example.litsaandroid.service.RetrofitInstance;
 import com.example.litsaandroid.service.UserAPIService;
@@ -78,7 +79,7 @@ public class UserRepository {
         });
     }
 
-    public UserResponse logUser(User user) throws Exception {
+    public void logUser(UserRequest user) throws Exception {
         TokenStorage tokenStorage = new TokenStorage(application.getApplicationContext());
         UserResponse userResponse= new UserResponse();
         Call call = userAPIService.loginToken(user);
@@ -89,6 +90,8 @@ public class UserRepository {
                     String token = response.body().getToken(); // Extract token
                     tokenStorage.saveToken(token);// Save token securely
                     userResponse.setToken(token);
+                    Toast.makeText(application.getApplicationContext(), "your token is " + token, Toast.LENGTH_SHORT).show();
+
                 }else{
                     Toast.makeText(application.getApplicationContext(), "User email or password incorrect", Toast.LENGTH_SHORT).show();
 
@@ -97,12 +100,10 @@ public class UserRepository {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(application.getApplicationContext(), "User email or password incorrect", Toast.LENGTH_SHORT).show();
                 Log.e("POST onFailure", t.getMessage());
             }
         });
 
-        return userResponse;
     }
     public User editUser (User user){
         User updatedUser = new User();

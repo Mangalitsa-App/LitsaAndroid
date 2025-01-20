@@ -46,13 +46,14 @@ public class Splash extends AppCompatActivity {
                 Log.i("EXCEPTION", Objects.requireNonNull(e.getMessage()));
                 navigateToLog();
             }
-        }, 2000);
+        }, 3000);
 
         // Check for stored token
         TokenStorage tokenStorage;
+        UserResponse userResponse = new UserResponse();
         try {
-            tokenStorage = new TokenStorage(this);
-            String token = tokenStorage.getToken();
+//            tokenStorage = new TokenStorage(this);
+            String token = userResponse.getToken();
 
             if (token != null && !token.isEmpty()) {
                 // Token exists, navigate to Home Activity

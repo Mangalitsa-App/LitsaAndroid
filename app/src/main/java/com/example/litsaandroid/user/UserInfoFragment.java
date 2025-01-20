@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,10 @@ import android.widget.TextView;
 import com.example.litsaandroid.R;
 import com.example.litsaandroid.model.TokenStorage;
 import com.example.litsaandroid.model.User;
+import com.example.litsaandroid.model.UserResponse;
 import com.example.litsaandroid.ui.mainActivity.Splash;
+
+import java.util.Objects;
 
 public class UserInfoFragment extends Fragment {
 
@@ -31,6 +35,7 @@ public class UserInfoFragment extends Fragment {
     Button deleteAccountButton;
     TokenStorage tokenStorage;
     UserViewModel viewModel;
+    UserResponse response;
 
     public UserInfoFragment() {
         // Required empty public constructor
@@ -49,14 +54,15 @@ public class UserInfoFragment extends Fragment {
         try {
             tokenStorage = new TokenStorage(getContext());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Log.i("Tag", Objects.requireNonNull(e.getMessage()));
+
         }
 
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
 
         //Displaying user name and email
-       String token = tokenStorage.getToken();
+       String token = response.getToken();
        name = view.findViewById(R.id.name);
        email = view.findViewById(R.id.email);
 
@@ -109,5 +115,13 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
+        //logic for passwordReset
+        passwordResetButton = view.findViewById(R.id.password);
+        passwordResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
