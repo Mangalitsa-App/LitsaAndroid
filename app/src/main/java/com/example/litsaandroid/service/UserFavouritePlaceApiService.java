@@ -17,7 +17,7 @@ public interface UserFavouritePlaceApiService {
     Call<List<Favourites>> getAllFavourites(@Path("user_id") long userId);
 
     @POST("favourites/{user_id}")
-    Call<Favourites> addFavourite(@Path("user_id")long userId, @Body Favourites favourites);
+    Call<Favourites> addFavourite(@Path("user_id")Long userId, @Body Favourites favourites);
 
     @DELETE("favourites/{user_id}/{place_id}")
     Call<String> deleteFavourite(@Path("user_id") long userId, @Path("place_id") long placeId);

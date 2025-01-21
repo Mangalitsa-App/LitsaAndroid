@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,15 +29,15 @@ import java.util.List;
 
 public class FavouritesFragment extends Fragment implements RecyclerViewInterface {
 
-    private RecyclerView recyclerView;
     private ArrayList<Favourites> favouritesList;
-    private Favourites favourites;
-    private Adapter adapter;
+    private FavouritesAdapter adapter;
     private FragmentFavouritesBinding binding;
     private FavouritesViewModel favouritesViewModel;
+    private RecyclerView recyclerView;
+    private Favourites favourites;
     private FavouritesClickHandler clickHandler;
     private Favourites passedFavourite;
-    private User user;
+    private User passedUser;
 
     public FavouritesFragment() {
     }
@@ -44,8 +45,18 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        assert getArguments() != null;
+        if(getArguments() != null) {
         passedFavourite = getArguments().getParcelable("favourites_body");
+            assert passedFavourite != null;
+            Log.i("passed favourite", passedFavourite.getTypesAsString());
+            Log.i("passed favourite", passedFavourite.getWebsite());
+            Log.i("passed favourite", passedFavourite.getPriceLevel());
+            Log.i("passed favourite", passedFavourite.getFormattedAddress());
+            Log.i("passed favourite", passedFavourite.getPhotoLink());
+            Log.i("passed favourite", passedFavourite.getUserId().toString());
+
+//        passedUser = getArguments().getParcelable("userID");}
+        }
     }
 
     @Override
@@ -62,27 +73,29 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
         clickHandler = new FavouritesClickHandler(this.getContext(), favourites, favouritesViewModel);
         binding.setFavourites(favourites);
         binding.setClickhandlers(clickHandler);
-     //   getFavouritePlaces();
+        getFavouritePlaces();
         setupRecyclerView();
     }
 
  
     private void setupRecyclerView() {
-        adapter = new Adapter(new ArrayList<>(), this);
-        binding.recyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerview.setAdapter(adapter);
+    adapter = new FavouritesAdapter(new ArrayList<>(), this.getContext());
+    binding.recyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
+    binding.recyclerview.setAdapter(adapter);
     }
 
 
-
-//    private void getFavouritePlaces(){
-//        favouritesViewModel.getAllFavourites(user.GETID, passedFavourite).observe(getViewLifecycleOwner(), new Observer<List<Favourites>>() {
-//            @Override
-//            public void onChanged(List<Favourites> favourites) {
-//                favouritesList = (ArrayList<Favourites>) favourites;
-//            }
-//        });
-//    }
+    private void getFavouritePlaces(){
+    favouritesViewModel.getAllFavourites(1).observe(getViewLifecycleOwner(), favourites ->  {
+                if(favourites != null){
+                    favouritesList = new ArrayList<>(favourites);
+                    adapter.setFavouritesList(favouritesList);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Log.e("FavouritesFragment", "No favourites were returned.");
+                }
+        });
+    }
 
     @Override
     public void onItemClick(int position) {

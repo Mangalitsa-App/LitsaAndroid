@@ -51,6 +51,10 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Fa
         return favouritesList.size();
     }
 
+    public void setFavouritesList(List<Favourites> favouritesList) {
+        this.favouritesList = favouritesList;
+    }
+
     public static class FavouritesItemViewHolder extends RecyclerView.ViewHolder {
         private FavouritesItemBinding binding;
 
