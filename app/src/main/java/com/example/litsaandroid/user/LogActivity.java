@@ -57,11 +57,7 @@ public class LogActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-                    viewModel.logUser(user);
-                } catch (Exception e) {
-                    Log.i("EXCEPTION", Objects.requireNonNull(e.getMessage()));
-                }
+                viewModel.logUser(user);
 
                 //if login is successful we move to the HomeFragment
                 //TODO

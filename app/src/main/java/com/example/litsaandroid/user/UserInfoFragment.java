@@ -33,7 +33,7 @@ public class UserInfoFragment extends Fragment {
     Button outButton;
     Button passwordResetButton;
     Button deleteAccountButton;
-    TokenStorage tokenStorage;
+   TokenStorage tokenStorage;
     UserViewModel viewModel;
     UserResponse response;
 
@@ -62,29 +62,21 @@ public class UserInfoFragment extends Fragment {
 
 
         //Displaying user name and email
-       String token = response.getToken();
        name = view.findViewById(R.id.name);
        email = view.findViewById(R.id.email);
 
-        User user = new User();
-        try {
-            user = viewModel.getUser();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
-        assert user != null;
+        User user = viewModel.getUser();
+
         name.setText(user.getName());
         email.setText(user.getEmail());
 
         //logic for update button
         updateButton = view.findViewById(R.id.update);
-
-        User finalUser = user;
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.editUser(finalUser);
+                viewModel.editUser(user);
 
 
                 Intent intent = new Intent(getContext(), Splash.class);
