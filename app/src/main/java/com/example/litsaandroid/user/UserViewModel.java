@@ -20,14 +20,14 @@ public class UserViewModel extends AndroidViewModel {
     }
 
 
-    public User getUser() throws Exception {
+    public User getUser()  {
         return userRepository.getUser();
 
     }
     public void addUser (User user){
     userRepository.addUser(user);
     }
-    public void logUser(UserRequest user) throws Exception {
+    public void logUser(UserRequest user)  {
         userRepository.logUser(user);
 
     }
