@@ -56,7 +56,7 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="@color/cardview_dark_background"
-                android:text="@{}"
+                android:text="@{Favourites.typesAsString}"
                 android:textSize="15sp"
                 card_view:layout_constraintBottom_toTopOf="@id/price"
                 card_view:layout_constraintEnd_toEndOf="parent"

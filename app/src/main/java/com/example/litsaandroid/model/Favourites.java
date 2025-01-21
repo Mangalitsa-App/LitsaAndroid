@@ -13,15 +13,15 @@ import java.util.List;
 public class Favourites extends BaseObservable implements Parcelable {
 
 
-    private String id;
-
+    private Long id;
+    private Long userId;
     private String displayName;
 
-    private String img;
+    private String photoLink;
 
     private String formattedAddress;
 
-    private String websiteUri;
+    private String website;
 
     private String priceLevel;
 
@@ -30,32 +30,33 @@ public class Favourites extends BaseObservable implements Parcelable {
     public Favourites() {
     }
 
-    public Favourites(String displayName, String photoLink, String formattedAddress, String website, String priceLevel, String types) {
+    public Favourites(Long userId, String displayName, String photoLink, String formattedAddress, String website, String priceLevel, List<String> types) {
+        this.userId = userId;
         this.displayName = displayName;
-//        this.photoLink = photoLink;
+        this.photoLink = photoLink;
         this.formattedAddress = formattedAddress;
-//        this.website = website;
+        this.website = website;
         this.priceLevel = priceLevel;
-//        this.types = types;
+        this.types = types;
     }
 
     protected Favourites(Parcel in) {
         if (in.readByte() == 0) {
             id = null;
         } else {
-//            id = in.readLong();
+            id = in.readLong();
         }
-//        if (in.readByte() == 0) {
-//            userId = null;
-//        } else {
-//            userId = in.readLong();
-//        }
+        if (in.readByte() == 0) {
+            userId = null;
+        } else {
+            userId = in.readLong();
+        }
         displayName = in.readString();
-//        photoLink = in.readString();
+        photoLink = in.readString();
         formattedAddress = in.readString();
-//        website = in.readString();
+        website = in.readString();
         priceLevel = in.readString();
-//        types = in.readString();
+        types = in.createStringArrayList();
     }
 
     public static final Creator<Favourites> CREATOR = new Creator<Favourites>() {
@@ -71,12 +72,21 @@ public class Favourites extends BaseObservable implements Parcelable {
     };
 
     @Bindable
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    @Bindable
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Bindable
@@ -89,12 +99,12 @@ public class Favourites extends BaseObservable implements Parcelable {
     }
 
     @Bindable
-    public String getImg() {
-        return img;
+    public String getPhotoLink() {
+        return photoLink;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setPhotoLink(String photoLink) {
+        this.photoLink = photoLink;
     }
 
     @Bindable
@@ -107,12 +117,12 @@ public class Favourites extends BaseObservable implements Parcelable {
     }
 
     @Bindable
-    public String getWebsiteUri() {
-        return websiteUri;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setWebsiteUri(String websiteUri) {
-        this.websiteUri = websiteUri;
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     @Bindable
@@ -120,19 +130,29 @@ public class Favourites extends BaseObservable implements Parcelable {
         return priceLevel;
     }
 
-
     public void setPriceLevel(String priceLevel) {
         this.priceLevel = priceLevel;
     }
 
-  //  @Bindable
- //   public String getTypes() {
-//        return types;
-  //  }
+    @Bindable
+    public List<String> getTypes() {
+        return types;
+    }
 
-//    public void setTypes(String types) {
-//        this.types = types;
-//    }
+    @Bindable
+    public String getTypesAsString(){
+        String listStrings = getTypes().toString();
+        listStrings= listStrings.replace("[", "")
+                .replace("]", "")
+                .replace("_", " ")
+                .replace(",", "");
+
+        return listStrings;
+    }
+
+    public void setTypes(List<String> types) {
+        this.types = types;
+    }
 
     @Override
     public int describeContents() {
@@ -145,20 +165,20 @@ public class Favourites extends BaseObservable implements Parcelable {
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
-//            dest.writeLong(id);
+            dest.writeLong(id);
         }
-//        if (userId == null) {
-//            dest.writeByte((byte) 0);
-//        } else {
-//            dest.writeByte((byte) 1);
-//            dest.writeLong(userId);
-//        }
+        if (userId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(userId);
+        }
         dest.writeString(displayName);
-//        dest.writeString(photoLink);
+        dest.writeString(photoLink);
         dest.writeString(formattedAddress);
-//        dest.writeString(website);
+        dest.writeString(website);
         dest.writeString(priceLevel);
-//        dest.writeString(types);
+        dest.writeList(types);
     }
 }
 

@@ -43,7 +43,7 @@ public class UserFavouriteRepository {
         return mutableLiveData;
     }
 
-    public void addFavourite(long userId, Favourites favourites){
+    public void addFavourite(Long userId, Favourites favourites){
         Call<Favourites> call = userFavouritePlaceApiService.addFavourite(userId, favourites);
 
         call.enqueue(new Callback<Favourites>() {
