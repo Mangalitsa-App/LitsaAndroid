@@ -23,6 +23,7 @@ public class UserRepository {
     private Application application;
     private UserAPIService userAPIService;
 
+
     private UserResponse userResponse;
     public UserRepository(Application application) {
         this.application = application;
@@ -85,7 +86,7 @@ public class UserRepository {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    UserResponse ur = response.body(); // Extract token
+                    UserResponse ur = response.body(); //
                     userResponse.setToken(ur.getToken());
                     String token = ur.getToken();
                     Toast.makeText(application.getApplicationContext(), "your token is " + token, Toast.LENGTH_SHORT).show();
