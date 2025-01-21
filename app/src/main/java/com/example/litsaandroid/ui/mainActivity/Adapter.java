@@ -1,8 +1,10 @@
 package com.example.litsaandroid.ui.mainActivity;
 
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +21,16 @@ import com.example.litsaandroid.model.Favourites;
 import com.example.litsaandroid.model.Places;
 
 
+import com.example.litsaandroid.model.User;
 import com.example.litsaandroid.ui.favourites.FavouritesFragment;
 import com.example.litsaandroid.ui.favourites.FavouritesViewModel;
+import com.example.litsaandroid.user.UserInfoFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.PlacesItemViewHolder> {
     private List<Places> placesList;
@@ -32,6 +39,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PlacesItemViewHolder> 
     private FavouritesViewModel favouritesViewModel;
     private FavouritesFragment favouritesFragment;
     private final RecyclerViewInterface recyclerViewInterface;
+    private Favourites newFavourite = new Favourites();
+    User user;
+
 
     public Adapter(List<Places> placesList, RecyclerViewInterface recyclerViewInterface) {
         this.placesList = placesList;
@@ -71,64 +81,77 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PlacesItemViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull PlacesItemViewHolder holder, int position) {
-    Places place = placesList.get(position);
-    holder.binding.setPlaces(place);
-
-        Glide.with(holder.itemView.getContext())
-                .load(place.getImg())
-                .placeholder(R.drawable.place_image)
-                .fitCenter()
-                .into(holder.binding.placesImage);
-
-//        switch(place.getPriceLevel()) {
-//            case "1":
-//                holder.binding.price.setImageResource(R.drawable.one_pound);
-//                break;
-//            case "2":
-//                holder.binding.price.setImageResource(R.drawable.two_pound);
-//                break;
-//            case "3":
-//                holder.binding.price.setImageResource(R.drawable.three_pound);
-//                break;
-//            case "4":
-//                holder.binding.price.setImageResource(R.drawable.four_pound);
-//                break;
-//            default:
-//                holder.binding.price.setImageResource(R.drawable.ic_price_foreground);
-//        }
+        Places place = placesList.get(position);
+        holder.binding.setPlaces(place);
 
 
-    FloatingActionButton favouritesButton = holder.binding.floatingActionButtonFavourites;
-    favouritesButton.setSelected(true);
-    favouritesButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Favourites newFavourite = new Favourites();
+//        Glide.with(holder.itemView.getContext())
+//                .load(place.getImg())
+//                .placeholder(R.drawable.place_image)
+//                .fitCenter()
+//                .into(holder.binding.placesImage);
 
-            newFavourite.setDisplayName(place.getDisplayName());
-//            newFavourite.setPhotoLink(place.getImg());
-//            newFavourite.setFormattedAddress(place.getFormattedAddress());
-//            newFavourite.setWebsite(place.getWebsiteUri());
-//            newFavourite.setPriceLevel(place.getPriceLevel());
-//            newFavourite.setTypes(place.getTypes().toString());
+        FloatingActionButton favouritesButton = holder.binding.floatingActionButtonFavourites;
+        favouritesButton.setSelected(true);
+        favouritesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-//            favouritesViewModel.addFavourites(GET USER ID, newFavourite);
+                try {
+                    if(place != null) {
+                        newFavourite.setDisplayName(place.getDisplayName());
+                        newFavourite.setFormattedAddress(place.getFormattedAddress());
+                        newFavourite.setTypes(place.getTypes());
+                        newFavourite.setUserId(1L);
 
-            Bundle args = new Bundle();
-            args.putParcelable("favourites_body", newFavourite);
-            favouritesFragment.setArguments(args);
+                        if (place.getPriceLevel() != null) {
+                            newFavourite.setPriceLevel(place.getPriceLevel());
+                        } else {
+                            newFavourite.setPriceLevel("PRICE_LEVEL_UNSPECIFIED");
+                        }
+
+                        if (place.getWebsiteUri() != null) {
+                            newFavourite.setPhotoLink(place.getImg());
+                        } else {
+                            newFavourite.setPhotoLink("empty");
+
+                            if (place.getWebsiteUri() != null) {
+                                newFavourite.setWebsite(place.getWebsiteUri());
+                            } else {
+                                newFavourite.setWebsite("empty");
+                            }
+
+                            Log.i("favourites", newFavourite.getPhotoLink());
+                            Log.i("favourites", newFavourite.getDisplayName());
+                            Log.i("favourites", newFavourite.getFormattedAddress());
+                            Log.i("favourites", newFavourite.getWebsite());
+                            Log.i("favourites", newFavourite.getPriceLevel());
+                            Log.i("favourites", newFavourite.getTypesAsString());
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.getMessage();
+                }
 
 
-            if(favouritesButton.isSelected()){
-                favouritesButton.setImageResource(R.drawable.favourites_clicked);
-                favouritesButton.setSelected(false);
+                if (favouritesButton.isSelected()) {
+                    favouritesButton.setImageResource(R.drawable.favourites_clicked);
+//                Bundle args = new Bundle();
+//                args.putParcelable("favourites_body", newFavourite);
+//                favouritesFragment.setArguments(args);
+//                Log.i("Testing", "first testing");
+                    if(newFavourite != null){
+                    favouritesViewModel.addFavourites(1, newFavourite);}
+                    Log.i("Testing", "testing");
+                    favouritesButton.setSelected(false);
+                } else {
+                    favouritesButton.setImageResource(R.drawable.favourites_unclicked);
+                    favouritesButton.setSelected(true);
+                }
             }
-            else{
-                favouritesButton.setImageResource(R.drawable.favourites_unclicked);
-                favouritesButton.setSelected(true);
-            }
-        }
-    });
+
+        });
     }
 
     @Override
