@@ -103,7 +103,7 @@ public class Places extends BaseObservable implements Parcelable {
         listStrings= listStrings.replace("[", "")
                 .replace("]", "")
                 .replace("_", " ")
-                .replace(",", "");
+                .replace(",", "\n");
 
         return listStrings;
     }

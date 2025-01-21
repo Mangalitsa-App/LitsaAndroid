@@ -24,7 +24,9 @@ import com.example.litsaandroid.model.Places;
 import com.example.litsaandroid.model.User;
 import com.example.litsaandroid.ui.favourites.FavouritesFragment;
 import com.example.litsaandroid.ui.favourites.FavouritesViewModel;
+
 import com.example.litsaandroid.user.UserInfoFragment;
+import com.example.litsaandroid.user.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -42,6 +44,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PlacesItemViewHolder> 
     private Favourites newFavourite = new Favourites();
     User user;
 
+
+    private UserViewModel user;
 
     public Adapter(List<Places> placesList, RecyclerViewInterface recyclerViewInterface) {
         this.placesList = placesList;
@@ -84,6 +88,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PlacesItemViewHolder> 
         Places place = placesList.get(position);
         holder.binding.setPlaces(place);
 
+    Places place = placesList.get(position);
+    holder.binding.setPlaces(place);
 
 //        Glide.with(holder.itemView.getContext())
 //                .load(place.getImg())
@@ -149,6 +155,60 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PlacesItemViewHolder> 
                     favouritesButton.setImageResource(R.drawable.favourites_unclicked);
                     favouritesButton.setSelected(true);
                 }
+
+        if(place.getPriceLevel() != null) {
+            switch (place.getPriceLevel()) {
+                case "PRICE_LEVEL_INEXPENSIVE":
+                    holder.binding.price.setImageResource(R.drawable.one_pound);
+                    break;
+                case "PRICE_LEVEL_MODERATE":
+                    holder.binding.price.setImageResource(R.drawable.two_pound);
+                    break;
+                case "PRICE_LEVEL_EXPENSIVE":
+                    holder.binding.price.setImageResource(R.drawable.three_pound);
+                    break;
+                case "PRICE_LEVEL_VERY_EXPENSIVE":
+                    holder.binding.price.setImageResource(R.drawable.four_pound);
+                    break;
+                default:
+                    holder.binding.price.setImageResource(R.drawable.ic_price_foreground);
+            }
+        }
+
+
+    FloatingActionButton favouritesButton = holder.binding.floatingActionButtonFavourites;
+    favouritesButton.setSelected(true);
+    favouritesButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Favourites newFavourite = new Favourites();
+
+            newFavourite.setDisplayName(place.getDisplayName());
+//            newFavourite.setPhotoLink(place.getImg());
+//            newFavourite.setFormattedAddress(place.getFormattedAddress());
+//            newFavourite.setWebsite(place.getWebsiteUri());
+//            newFavourite.setPriceLevel(place.getPriceLevel());
+//            newFavourite.setTypes(place.getTypes().toString());
+
+            try {
+                User loggedInUser = user.getUser();
+                long loggedInUserId = loggedInUser.getId();
+                favouritesViewModel.addFavourites(loggedInUserId, newFavourite);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            Bundle args = new Bundle();
+            args.putParcelable("favourites_body", newFavourite);
+            favouritesFragment.setArguments(args);
+
+            if(favouritesButton.isSelected()){
+                favouritesButton.setImageResource(R.drawable.fav_click_foreground);
+                favouritesButton.setSelected(false);
+            }
+            else{
+                favouritesButton.setImageResource(R.drawable.fav_unclick_foreground);
+                favouritesButton.setSelected(true);
             }
 
         });

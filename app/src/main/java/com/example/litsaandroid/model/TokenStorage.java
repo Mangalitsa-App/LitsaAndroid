@@ -11,8 +11,11 @@ public class TokenStorage {
         private static final String SHARED_PREFS_NAME = "secure_prefs";
         private static final String TOKEN_KEY = "auth_token";
         private final SharedPreferences sharedPreferences;
+        UserResponse userResponse;
 
         public TokenStorage(Context context) throws Exception {
+            saveToken(userResponse.getToken());
+
             MasterKey masterKey = new MasterKey.Builder(context)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                     .build();

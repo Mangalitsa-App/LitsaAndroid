@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.litsaandroid.model.TokenStorage;
 import com.example.litsaandroid.model.User;
+import com.example.litsaandroid.model.UserRequest;
 import com.example.litsaandroid.model.UserResponse;
 import com.example.litsaandroid.service.RetrofitInstance;
 import com.example.litsaandroid.service.UserAPIService;
@@ -23,6 +24,7 @@ public class UserRepository {
     private UserAPIService userAPIService;
 
 
+    private UserResponse userResponse;
     public UserRepository(Application application) {
         this.application = application;
         userAPIService = RetrofitInstance.getService().create(UserAPIService.class);
@@ -30,9 +32,8 @@ public class UserRepository {
 
 
 
-    public User getUser() throws Exception {
-        TokenStorage tokenStorage = new TokenStorage(application.getApplicationContext());
-        String token = tokenStorage.getToken();
+    public User getUser()  {
+        String token = userResponse.getToken();
 
         User newUser = new User();
         Call<User> call = userAPIService.getUser(token);
@@ -78,17 +79,18 @@ public class UserRepository {
         });
     }
 
-    public UserResponse logUser(User user) throws Exception {
-        TokenStorage tokenStorage = new TokenStorage(application.getApplicationContext());
+    public void logUser(UserRequest user)  {
         UserResponse userResponse= new UserResponse();
         Call call = userAPIService.loginToken(user);
         call.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    String token = response.body().getToken(); // Extract token
-                    tokenStorage.saveToken(token);// Save token securely
-                    userResponse.setToken(token);
+                    UserResponse ur = response.body(); //
+                    userResponse.setToken(ur.getToken());
+                    String token = ur.getToken();
+                    Toast.makeText(application.getApplicationContext(), "your token is " + token, Toast.LENGTH_SHORT).show();
+
                 }else{
                     Toast.makeText(application.getApplicationContext(), "User email or password incorrect", Toast.LENGTH_SHORT).show();
 
@@ -97,12 +99,10 @@ public class UserRepository {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(application.getApplicationContext(), "User email or password incorrect", Toast.LENGTH_SHORT).show();
                 Log.e("POST onFailure", t.getMessage());
             }
         });
 
-        return userResponse;
     }
     public User editUser (User user){
         User updatedUser = new User();

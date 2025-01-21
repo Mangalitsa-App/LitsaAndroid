@@ -29,32 +29,32 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="141dp"
             android:padding="4dp">
 
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/places_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_bias="0.714"
+                card_view:layout_constraintVertical_bias="0.259"
                 tools:src="@drawable/ic_user_foreground" />
 
             <TextView
                 android:id="@+id/title"
-
                 android:layout_width="289dp"
-                android:layout_height="39dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:hint="@string/title"
                 android:text="@{Places.displayName.toUpperCase()}"
-                android:textSize="30sp"
+                android:textSize="27sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/floatingActionButtonFavourites"
@@ -62,28 +62,27 @@
                 app:layout_constraintTop_toTopOf="parent"
                 card_view:layout_constraintHorizontal_bias="0.0" />
 
-       
 
             <TextView
                 android:id="@+id/tag"
-                android:layout_width="189dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:hint="Keyword"
+                android:layout_width="217dp"
+                android:layout_height="75dp"
+                android:hint="keywords"
                 android:text="@{Places.typesAsString}"
-                android:textSize="15sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/title"
                 app:layout_constraintTop_toBottomOf="@id/title"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintHorizontal_bias="0.0" />
+                card_view:layout_constraintHorizontal_bias="0.0"
+                card_view:layout_constraintVertical_bias="0.272" />
+
 
             <ImageView
                 android:id="@+id/price"
                 android:layout_width="38dp"
                 android:layout_height="18dp"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="@color/cardview_dark_background"
                 android:contentDescription="@string/show_average_price"
@@ -92,19 +91,19 @@
                 app:layout_constraintStart_toEndOf="@id/tag"
                 app:layout_constraintTop_toBottomOf="@id/title"
                 card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintVertical_bias="0.97" />
+                card_view:layout_constraintVertical_bias="0.0" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatingActionButtonFavourites"
-                android:layout_width="54dp"
-                android:layout_height="89dp"
-                android:layout_marginTop="52dp"
-                android:drawableTint="#ff0000"
-                android:src="@drawable/favourites_unclicked"
-                android:tooltipText="Add to favourites"
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/fav_unclick_foreground"
+                app:fabCustomSize="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/price"
+                card_view:layout_constraintHorizontal_bias="1.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

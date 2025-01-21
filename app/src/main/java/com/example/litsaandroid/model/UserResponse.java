@@ -1,16 +1,27 @@
 package com.example.litsaandroid.model;
 
 public class UserResponse {
-    private String token;
+    private static String token;
+    private static long expiresIn;
+
 
     public String getToken() {
         return token;
     }
 
     public void setToken(String token) {
-        this.token = token;
+        UserResponse.token = token;
+    }
+
+    public static long getExpiresIn() {
+        return expiresIn;
+    }
+
+    public static void setExpiresIn(long expiresIn) {
+        UserResponse.expiresIn = expiresIn;
     }
 
     public UserResponse() {
     }
+
 }

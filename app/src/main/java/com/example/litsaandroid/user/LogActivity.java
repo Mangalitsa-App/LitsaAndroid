@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.litsaandroid.R;
 import com.example.litsaandroid.model.User;
+import com.example.litsaandroid.model.UserRequest;
 import com.example.litsaandroid.model.UserResponse;
 import com.example.litsaandroid.ui.mainActivity.HomeFragment;
 import com.example.litsaandroid.ui.mainActivity.MainActivity;
@@ -29,11 +30,13 @@ import com.example.litsaandroid.ui.mainActivity.Splash;
 import java.util.List;
 import java.util.Objects;
 
+import retrofit2.Callback;
+
 public class LogActivity extends AppCompatActivity {
 
     private UserViewModel viewModel;
 
-    public User user = new User();
+    public UserRequest user = new UserRequest();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,23 +47,17 @@ public class LogActivity extends AppCompatActivity {
         EditText emailbox = findViewById(R.id.email);
         EditText passwordbox = findViewById(R.id.password);
         viewModel= new ViewModelProvider(this).get(UserViewModel.class);
-
+        String email = emailbox.getText().toString();
+        String password = passwordbox.getText().toString();
+        user.setEmail(email);
+        user.setPassword(password);
         //logic for log in button
         Button button = findViewById(R.id.LogIn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailbox.getText().toString();
-                String password = passwordbox.getText().toString();
-                user.setEmail(email);
-                user.setPassword(password);
-//                UserResponse response;
 
-                try {
-                    viewModel.logUser(user);
-                } catch (Exception e) {
-                    Log.i("EXCEPTION", Objects.requireNonNull(e.getMessage()));
-                }
+                viewModel.logUser(user);
 
                 //if login is successful we move to the HomeFragment
                 //TODO

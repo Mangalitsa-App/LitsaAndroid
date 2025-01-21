@@ -6,7 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.example.litsaandroid.model.User;
+import com.example.litsaandroid.model.UserRequest;
 import com.example.litsaandroid.repositories.UserRepository;
+
+import retrofit2.Callback;
 
 public class UserViewModel extends AndroidViewModel {
     private UserRepository userRepository;
@@ -17,14 +20,14 @@ public class UserViewModel extends AndroidViewModel {
     }
 
 
-    public User getUser() throws Exception {
+    public User getUser()  {
         return userRepository.getUser();
 
     }
     public void addUser (User user){
     userRepository.addUser(user);
     }
-    public void logUser(User user) throws Exception {
+    public void logUser(UserRequest user)  {
         userRepository.logUser(user);
 
     }

@@ -2,6 +2,7 @@ package com.example.litsaandroid.service;
 
 import com.example.litsaandroid.model.TokenStorage;
 import com.example.litsaandroid.model.User;
+import com.example.litsaandroid.model.UserRequest;
 import com.example.litsaandroid.model.UserResponse;
 
 import okhttp3.internal.http.StatusLine;
@@ -18,7 +19,7 @@ public interface UserAPIService {
     Call<User> getUser(@Header("token") String token);
 
     @POST("auth/login")
-    Call<UserResponse> loginToken(@Body User user);
+    Call<UserResponse> loginToken(@Body UserRequest user);
 
     @POST("auth/signup")
     Call<StatusLine> create(@Body User user);
